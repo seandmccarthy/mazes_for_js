@@ -64,19 +64,19 @@ class Grid {
     toString() {
         let s = "+" + "---+".repeat(this.columns) + "\n";
         this.eachRow(function(row) {
-            let _top = "|";
+            let top = "|";
             let bottom = "+";
 
             row.forEach(function(cell) {
                 if (cell == null) cell = new Cell(-1, -1);
                 let body = "   ";
-                let east_bd = cell.isLinked(cell.east) ? " " : "|";
-                _top += body + east_bd;
-                let south_bd = cell.isLinked(cell.south) ? "   " : "---";
-                bottom += south_bd + "+";
+                let eastBnd = cell.isLinked(cell.east) ? " " : "|";
+                top += body + eastBnd;
+                let southBnd = cell.isLinked(cell.south) ? "   " : "---";
+                bottom += southBnd + "+";
             });
 
-            s += _top + "\n";
+            s += top + "\n";
             s += bottom + "\n";
         });
 
