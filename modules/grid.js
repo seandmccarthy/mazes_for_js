@@ -21,17 +21,71 @@ class Grid {
     }
 
     configureCells() {
+        this.eachCell((cell) => {
+            const row = cell.row;
+            const col = cell.column;
+            cell.north = this.at(row - 1, col);
+            cell.south = this.at(row + 1, col);
+            cell.west = this.at(row, col - 1);
+            cell.east = this.at(row, col + 1);
+        });
     }
 
-    each_row(cb) {
+    at(row, col) {
+        if (row < 0 || row >= this.rows) {
+            return null;
+        }
+        if (col < 0 || col >= this.grid[row].length) {
+            return null;
+        }
+        return this.grid[row][col];
+    }
+
+    randomCell(randFunc = randInt) {
+        const row = randFunc(this.rows)
+        const col = randFunc(this.grid[row].length)
+        return this.at(row, col);
+    }
+
+    size() {
+        return this.rows * this.columns;
+    }
+
+    eachRow(cb) {
         this.grid.forEach(row => cb(row));
     }
 
-    each_cell(cb) {
-        this.each_row(function(row) {
+    eachCell(cb) {
+        this.eachRow(function(row) {
             row.forEach(cell => cb(cell));
         })
     }
+
+    toString() {
+        let s = "+" + "---+".repeat(this.columns) + "\n";
+        this.eachRow(function(row) {
+            let _top = "|";
+            let bottom = "+";
+
+            row.forEach(function(cell) {
+                if (cell == null) cell = new Cell(-1, -1);
+                let body = "   ";
+                let east_bd = cell.isLinked(cell.east) ? " " : "|";
+                _top += body + east_bd;
+                let south_bd = cell.isLinked(cell.south) ? "   " : "---";
+                bottom += south_bd + "+";
+            });
+
+            s += _top + "\n";
+            s += bottom + "\n";
+        });
+
+        return s;
+    }
+}
+
+const randInt = function(max) {
+    return Math.floor(Math.random() * max);
 }
 
 //export { Grid };
