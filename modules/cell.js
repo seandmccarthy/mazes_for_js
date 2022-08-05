@@ -5,11 +5,13 @@ class Cell {
     south;
     east;
     west;
+    distance;
 
     constructor(row, col) {
         this.row = row;
         this.column = col;
         this.links = [];
+        this.onPath = false;
     }
 
     link(cell, bidi = true) {

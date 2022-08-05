@@ -1,3 +1,11 @@
+function bodyOf(cell) {
+    //if (typeof cell.distance !== 'undefined') {
+    if (cell.onPath) {
+        return " " + cell.distance.toString(36) + " ";
+    }
+    return "   ";
+}
+
 const GridToASCII = (function(grid) {
     let s = "+" + "---+".repeat(grid.columns) + "\n";
     grid.eachRow(function(row) {
@@ -6,7 +14,7 @@ const GridToASCII = (function(grid) {
 
         row.forEach(function(cell) {
             if (cell == null) cell = new Cell(-1, -1);
-            let body = "   ";
+            let body = bodyOf(cell);
             let eastBnd = cell.isLinked(cell.east) ? " " : "|";
             top += body + eastBnd;
             let southBnd = cell.isLinked(cell.south) ? "   " : "---";
