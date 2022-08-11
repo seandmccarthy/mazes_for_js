@@ -1,12 +1,18 @@
-function bodyOf(cell) {
-    //if (typeof cell.distance !== 'undefined') {
+function distBody(cell) {
+    if (typeof cell.distance !== 'undefined') {
+        return " " + cell.distance.toString(36) + " ";
+    }
+    return "   ";
+}
+
+function pathBody(cell) {
     if (cell.onPath) {
         return " " + cell.distance.toString(36) + " ";
     }
     return "   ";
 }
 
-const GridToASCII = (function(grid) {
+const GridToASCII = (function(grid, bodyFunction = "distance") {
     let s = "+" + "---+".repeat(grid.columns) + "\n";
     grid.eachRow(function(row) {
         let top = "|";
@@ -14,7 +20,7 @@ const GridToASCII = (function(grid) {
 
         row.forEach(function(cell) {
             if (cell == null) cell = new Cell(-1, -1);
-            let body = bodyOf(cell);
+            let body = bodyFunction == "distance" ? distBody(cell) : pathBody(cell);
             let eastBnd = cell.isLinked(cell.east) ? " " : "|";
             top += body + eastBnd;
             let southBnd = cell.isLinked(cell.south) ? "   " : "---";
@@ -27,4 +33,5 @@ const GridToASCII = (function(grid) {
 
     return s;
 });
+
 module.exports = GridToASCII;

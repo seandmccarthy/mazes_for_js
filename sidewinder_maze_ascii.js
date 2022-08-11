@@ -9,7 +9,10 @@ const Path = require('./modules/path.js');
 
 const grid = new Grid(rows, cols);
 Sidewinder.on(grid);
-Distances.on(grid, rows - 1, 0);
+const dist = new Distances(grid);
+dist.calculateFrom(grid.at(rows - 1, 0));
 Path.between(grid.at(rows - 1, 0), grid.at(rows - 1, cols - 1));
 
 console.log(GridToASCII(grid));
+console.log("Max distance: " + dist.max + ", at cell (" + dist.maxCell.row + ", " + dist.maxCell.column + ")");
+console.log(GridToASCII(grid, "path"));
