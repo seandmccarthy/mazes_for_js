@@ -1,4 +1,14 @@
-const GridOnCanvas = (function(grid, canvas, border = 5) {
+function colourFor(cell, max) {
+    if (typeof cell.distance !== 'undefined') {
+        const intensity = (max - cell.distance) / max;
+        const dark = Math.round(255 * intensity);
+        const bright = 128 + Math.round(127 * intensity);
+        return "rgb(" + dark + ", " + bright + ", " + dark +")";
+    }
+    return "rgb(255, 255, 255)";
+}
+
+const GridOnCanvas = (function(grid, canvas, maxDistance) {
     const width = canvas.width;
     const height = canvas.height;
     const cellSize = width < height ? Math.floor(width / grid.columns) : Math.floor(height / grid.rows);
@@ -11,6 +21,9 @@ const GridOnCanvas = (function(grid, canvas, border = 5) {
         let y1 = cell.row * cellSize;
         let x2 = (cell.column + 1) * cellSize;
         let y2 = (cell.row + 1) * cellSize;
+
+        ctx.fillStyle = colourFor(cell, maxDistance);
+        ctx.fillRect(x1, y1, cellSize, cellSize);
 
         if (!cell.north) {
             ctx.moveTo(x1, y1);
@@ -31,4 +44,5 @@ const GridOnCanvas = (function(grid, canvas, border = 5) {
     });
     ctx.stroke();
 });
+
 module.exports = GridOnCanvas;
