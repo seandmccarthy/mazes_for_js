@@ -5,5 +5,5 @@ const Grid = require('./modules/grid.js');
 const BinaryTree = require('./modules/binary_tree.js');
 
 const grid = new Grid(rows, cols);
-const maze = BinaryTree.on(grid);
+BinaryTree(grid);
 console.log(grid.toString());

@@ -4,8 +4,8 @@ let cols = args[1] || 5;
 const Grid = require('./modules/grid.js');
 const Distances = require('./modules/distances.js');
 const Sidewinder = require('./modules/sidewinder.js');
-const GridToASCII = require('./modules/grid_to_ascii.js');
 const Path = require('./modules/path.js');
+const GridToASCII = require('./modules/grid_to_ascii.js');
 
 const grid = new Grid(rows, cols);
 Sidewinder.on(grid);

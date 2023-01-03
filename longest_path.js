@@ -1,11 +1,11 @@
-const Grid = require('./modules/grid.js');
-const Path = require('./modules/path.js');
-const Distances = require('./modules/distances.js');
-const BinaryTree = require('./modules/binary_tree.js');
-const GridToASCII = require('./modules/grid_to_ascii.js');
+import Grid from './modules/grid.js';
+import Path from './modules/path.js';
+import Distances from './modules/distances.js';
+import BinaryTree from './modules/binary_tree.js';
+import GridToASCII from './modules/grid_to_ascii.js';
 
 const grid = new Grid(5, 5);
-BinaryTree.on(grid);
+BinaryTree(grid);
 
 const dist = new Distances(grid);
 //const startCell = grid.at(grid.rows - 1, 0);

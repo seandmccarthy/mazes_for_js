@@ -1,17 +1,26 @@
-const Grid = require('./modules/grid.js');
-const Sidewinder = require('./modules/sidewinder.js');
-const Distances = require('./modules/distances.js');
-const Path = require('./modules/path.js');
+import Grid from './modules/grid.js';
+import Sidewinder from './modules/sidewinder.js';
+import Distances from './modules/distances.js';
+import Path from './modules/path.js';
+import GridOnCanvas from './modules/grid_on_canvas.js';
 
 const rows = 50;
 const cols = 50;
 
-const GridOnCanvas = require('./modules/grid_on_canvas.js');
 const grid = new Grid(rows, cols);
-const maze = Sidewinder.on(grid);
+Sidewinder(grid);
 const dist = new Distances(grid);
-dist.calculateFrom(grid.at(0, 0));
-Path.between(grid.at(0, 0), grid.at(rows - 1, cols - 1));
+const startCell = grid.at(0, 0);
+
+dist.calculateFrom(startCell);
+const newStart = dist.maxCell;
+console.log("Max: " + dist.maxCell.row + ", " + dist.maxCell.column);
+dist.reset();
+dist.calculateFrom(newStart);
+const goal = dist.maxCell;
+
+Path.between(newStart, goal);
+//Path.between(grid.at(rows - 1, 0), grid.at(rows - 1, cols - 1));
 
 const canvas = document.getElementById('maze-canvas');
 const ctx = canvas.getContext('2d');
