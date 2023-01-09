@@ -1,55 +1,55 @@
-//import { Cell } from '../modules/cell.js';
-const Cell = require('../modules/cell.js');
+import test from 'ava'
+import Cell from '../modules/cell.js';
 
-test('constructs with row and col', () => {
+test('constructs with row and col', t => {
     const cell = new Cell(1, 2);
-    expect(cell.row).toBe(1);
-    expect(cell.column).toBe(2);
+    t.is(cell.row, 1);
+    t.is(cell.column, 2);
 });
 
-test('unidirectionally links a cell', () => {
+test('unidirectionally links a cell', t => {
     const cell1 = new Cell(1, 1);
     const cell2 = new Cell(2, 2);
     cell1.link(cell2, false);
-    expect(cell1.linkedCells().length).toBe(1);
-    expect(cell2.linkedCells().length).toBe(0);
-    expect(cell1.linkedCells()[0]).toBe(cell2);
+    t.is(cell1.links.length, 1);
+    t.is(cell2.links.length, 0);
+    t.is(cell1.links[0], cell2);
 });
 
-test('bidirectionally links a cell', () => {
+test('bidirectionally links a cell', t => {
     const cell1 = new Cell(1, 1);
     const cell2 = new Cell(2, 2);
     cell1.link(cell2, true);
-    expect(cell1.linkedCells().length).toBe(1);
-    expect(cell2.linkedCells().length).toBe(1);
-    expect(cell1.linkedCells()[0]).toBe(cell2);
-    expect(cell2.linkedCells()[0]).toBe(cell1);
+    t.is(cell1.links.length, 1);
+    t.is(cell2.links.length, 1);
+    t.is(cell1.links[0], cell2);
+    t.is(cell2.links[0], cell1);
 });
 
-test('unlinks a cell', () => {
+test('unlinks a cell', t => {
     const cell1 = new Cell(1, 1);
     const cell2 = new Cell(2, 2);
     cell1.link(cell2);
-    expect(cell1.linkedCells().length).toBe(1);
-    expect(cell2.linkedCells().length).toBe(1);
+    t.is(cell1.links.length, 1);
+    t.is(cell2.links.length, 1);
     cell1.unlink(cell2)
-    expect(cell1.linkedCells().length).toBe(0);
-    expect(cell2.linkedCells().length).toBe(0);
+    t.is(cell1.links.length, 0);
+    t.is(cell2.links.length, 0);
 });
 
-test('#isLinked', () => {
+test('#isLinked', t => {
     const cell1 = new Cell(1, 1);
     const cell2 = new Cell(2, 2);
-    expect(cell1.isLinked(cell2)).toBeFalsy();
+    t.falsy(cell1.isLinked(cell2));
     cell1.link(cell2);
-    expect(cell1.isLinked(cell2)).toBeTruthy();
+    t.truthy(cell1.isLinked(cell2));
 });
 
-test('#neighbours', () => {
+test('#neighbours', t => {
     const cell1 = new Cell(1, 1);
     const cell2 = new Cell(2, 2);
     const cell3 = new Cell(3, 3);
     cell1.north = cell2;
     cell1.east = cell3;
-    expect(cell1.neighbours()).toEqual([cell2, cell3]);
+    t.deepEqual(cell1.neighbours(), [cell2, cell3]);
 });
