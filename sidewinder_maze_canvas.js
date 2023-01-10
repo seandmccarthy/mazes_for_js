@@ -2,7 +2,7 @@ import Grid from './modules/grid.js';
 import Sidewinder from './modules/sidewinder.js';
 import Distances from './modules/distances.js';
 import Path from './modules/path.js';
-import GridOnCanvas from './modules/grid_on_canvas.js';
+import MazeOnCanvas from './modules/maze_on_canvas.js';
 
 const rows = 50;
 const cols = 50;
@@ -24,4 +24,17 @@ Path.between(newStart, goal);
 
 const canvas = document.getElementById('maze-canvas');
 const ctx = canvas.getContext('2d');
-GridOnCanvas(grid, canvas, dist.max);
+
+function colourFor(cell) {
+	const intensity = (dist.max - cell.distance) / dist.max;
+	const dark = Math.round(255 * intensity);
+	const bright = 128 + Math.round(127 * intensity);
+	if (cell.onPath) {
+		return "rgb(0, 200, 0)";
+	} else if (typeof cell.distance !== 'undefined') {
+		return "rgb(" + dark + ", " + dark + ", " + bright + ")";
+	}
+	return "rgb(255, 255, 255)";
+}
+
+new MazeOnCanvas(canvas).from(grid, colourFor);

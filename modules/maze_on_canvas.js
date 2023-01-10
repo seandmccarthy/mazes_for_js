@@ -1,30 +1,21 @@
-function colourFor(cell, max) {
-	const intensity = (max - cell.distance) / max;
-	const dark = Math.round(255 * intensity);
-	const bright = 128 + Math.round(127 * intensity);
-	if (cell.onPath) {
-		return "rgb(0, 200, 0)";
-	} else if (typeof cell.distance !== 'undefined') {
-		return "rgb(" + dark + ", " + dark + ", " + bright + ")";
-	}
-	return "rgb(255, 255, 255)";
+export default function MazeOnCanvas(canvas) {
+	this.canvas = canvas;
 }
 
-export default function GridOnCanvas(grid, canvas, maxDistance) {
-	const width = canvas.width;
-	const height = canvas.height;
+MazeOnCanvas.prototype.from = function(grid, colourFn) {
+	const width = this.canvas.width;
+	const height = this.canvas.height;
 	const cellSize = width < height ? Math.floor(width / grid.columns) : Math.floor(height / grid.rows);
-
-	const ctx = canvas.getContext('2d');
+	const ctx = this.canvas.getContext('2d');
 
 	ctx.beginPath();
-	grid.eachCell(function(cell) {
+	grid.eachCell((cell, maxDistance) => {
 		let x1 = cell.column * cellSize;
 		let y1 = cell.row * cellSize;
 		let x2 = (cell.column + 1) * cellSize;
 		let y2 = (cell.row + 1) * cellSize;
 
-		ctx.fillStyle = colourFor(cell, maxDistance);
+		ctx.fillStyle = colourFn(cell);
 		ctx.fillRect(x1, y1, cellSize, cellSize);
 
 		if (!cell.north) {

@@ -3,6 +3,7 @@ import * as THREE from '../lib/three.module.js';
 export default function Maze3D(scene, grid) {
 	const wallSize = 50;
 	const wallWidth = 0.1 * wallSize;
+	const NINETY_DEGREES = Math.PI / 2;
 
 	const gridMiddle = (grid.rows * wallSize + wallWidth) / 2;
 	const light = new THREE.PointLight(0xffffff);
@@ -34,14 +35,14 @@ export default function Maze3D(scene, grid) {
 		}
 		if (!cell.west) {
 			const w = Wall();
-			w.rotation.set(0, Math.PI / 2, 0);
+			w.rotation.set(0, NINETY_DEGREES, 0);
 			w.position.x = x - (0.5 * wallSize);
 			w.position.z = y + (0.5 * wallSize);
 			scene.add(w);
 		}
 		if (!cell.isLinked(cell.east)) {
 			const w = Wall();
-			w.rotation.set(0, Math.PI / 2, 0);
+			w.rotation.set(0, NINETY_DEGREES, 0);
 			w.position.x = x + (0.5 * wallSize);
 			w.position.z = y + (0.5 * wallSize);
 			scene.add(w);
@@ -53,13 +54,4 @@ export default function Maze3D(scene, grid) {
 			scene.add(w);
 		}
 	});
-
-	/*
-	const w1 = Wall();
-	const w2 = Wall();
-	w1.rotation.set(0, Math.PI / 4, 0);
-	w2.rotation.set(0, -Math.PI / 4, 0);
-	scene.add(w1);
-	scene.add(w2);
-	*/
 }
