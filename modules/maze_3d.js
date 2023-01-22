@@ -1,7 +1,7 @@
 import * as THREE from '../lib/three.module.js';
 
 export default function Maze3D(scene, grid) {
-	const wallSize = 50;
+	const wallSize = 100;
 	const wallWidth = 0.1 * wallSize;
 	const NINETY_DEGREES = Math.PI / 2;
 

@@ -8,7 +8,7 @@ const rows = 50;
 const cols = 50;
 
 const grid = new Grid(rows, cols);
-Sidewinder(grid);
+Sidewinder.on(grid);
 const dist = new Distances(grid);
 const startCell = grid.at(0, 0);
 
@@ -23,7 +23,6 @@ Path.between(newStart, goal);
 //Path.between(grid.at(rows - 1, 0), grid.at(rows - 1, cols - 1));
 
 const canvas = document.getElementById('maze-canvas');
-const ctx = canvas.getContext('2d');
 
 function colourFor(cell) {
 	const intensity = (dist.max - cell.distance) / dist.max;
